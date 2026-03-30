@@ -1,399 +1,329 @@
-# Experiment 2: DDL Commands
+# Experiment 3: DML Commands
 
 ## AIM
-To study and implement DDL commands and different types of constraints.
+To study and implement DML (Data Manipulation Language) commands.
 
 ## THEORY
 
-### 1. CREATE
-Used to create a new relation (table).
-
+### 1. INSERT INTO
+Used to add records into a relation.
+These are three type of INSERT INTO queries which are as
+A)Inserting a single record
+**Syntax (Single Row):**
+```sql
+INSERT INTO table_name (field_1, field_2, ...) VALUES (value_1, value_2, ...);
+```
+**Syntax (Multiple Rows):**
+```sql
+INSERT INTO table_name (field_1, field_2, ...) VALUES
+(value_1, value_2, ...),
+(value_3, value_4, ...);
+```
+**Syntax (Insert from another table):**
+```sql
+INSERT INTO table_name SELECT * FROM other_table WHERE condition;
+```
+### 2. UPDATE
+Used to modify records in a relation.
+Syntax:
+```sql
+UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
+```
+### 3. DELETE
+Used to delete records from a relation.
+**Syntax (All rows):**
+```sql
+DELETE FROM table_name;
+```
+**Syntax (Specific condition):**
+```sql
+DELETE FROM table_name WHERE condition;
+```
+### 4. SELECT
+Used to retrieve records from a table.
 **Syntax:**
 ```sql
-CREATE TABLE (
-  field_1 data_type(size),
-  field_2 data_type(size),
-  ...
-);
+SELECT column1, column2 FROM table_name WHERE condition;
 ```
-### 2. ALTER
-Used to add, modify, drop, or rename fields in an existing relation.
-(a) ADD
-```sql
-ALTER TABLE std ADD (Address CHAR(10));
-```
-(b) MODIFY
-```sql
-ALTER TABLE relation_name MODIFY (field_1 new_data_type(size));
-```
-(c) DROP
-```sql
-ALTER TABLE relation_name DROP COLUMN field_name;
-```
-(d) RENAME
-```sql
-ALTER TABLE relation_name RENAME COLUMN old_field_name TO new_field_name;
-```
-### 3. DROP TABLE
-Used to permanently delete the structure and data of a table.
-```sql
-DROP TABLE relation_name;
-```
-### 4. RENAME
-Used to rename an existing database object.
-```sql
-RENAME TABLE old_relation_name TO new_relation_name;
-```
-### CONSTRAINTS
-Constraints are used to specify rules for the data in a table. If there is any violation between the constraint and the data action, the action is aborted by the constraint. It can be specified when the table is created (using CREATE TABLE) or after it is created (using ALTER TABLE).
-### 1. NOT NULL
-When a column is defined as NOT NULL, it becomes mandatory to enter a value in that column.
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  column_name data_type(size) NOT NULL
-);
-```
-### 2. UNIQUE
-Ensures that values in a column are unique.
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  column_name data_type(size) UNIQUE
-);
-```
-### 3. CHECK
-Specifies a condition that each row must satisfy.
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  column_name data_type(size) CHECK (logical_expression)
-);
-```
-### 4. PRIMARY KEY
-Used to uniquely identify each record in a table.
-Properties:
-Must contain unique values.
-Cannot be null.
-Should contain minimal fields.
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  column_name data_type(size) PRIMARY KEY
-);
-```
-### 5. FOREIGN KEY
-Used to reference the primary key of another table.
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  column_name data_type(size),
-  FOREIGN KEY (column_name) REFERENCES other_table(column)
-);
-```
-### 6. DEFAULT
-Used to insert a default value into a column if no value is specified.
-
-Syntax:
-```sql
-CREATE TABLE Table_Name (
-  col_name1 data_type,
-  col_name2 data_type,
-  col_name3 data_type DEFAULT 'default_value'
-);
-```
-
 **Question 1**
 ```
-Create a table named Tasks with the following columns:
-
-TaskID as INTEGER
-TaskName as TEXT
-DueDate as DATE
+Write a SQL statement to change salary of employee to 8000 whose Employee ID is 105, if the existing salary is less than 5000.
+Employees table--------------
+employee_id
+first_name
+last_name
+email
+phone_number
+hire_date
+job_id
+salary
+commission_pct
+manager_id
+department_id
 For example:
-
-Test	Result
-pragma table_info('Tasks');
-cid         name        type        notnull     dflt_value  pk
-----------  ----------  ----------  ----------  ----------  ----------
-0           TaskID      INTEGER     0                       0
-1           TaskName    TEXT        0                       0
-2           DueDate     DATE        0                       0
+Test Result
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, PHONE_NUMBER FROM EMPLOYEES 
+WHERE EMPLOYEE_ID=105;
+EMPLOYEE_ID  FIRST_NAME  SALARY      
+PHONE_NUMBER-----------  ----------  ----------  ------------
+105          David       8000        
+590.423.4569
 ```
 ```
-CREATE TABLE tasks(
-   TaskID  INTEGER,
-   TaskName  TEXT,
-   DueDate DATE
-);
+update Employees set salary=8000
+where employee_id=105 and salary<5000;
 ```
 **Output:**
 
-<img width="1321" height="268" alt="image" src="https://github.com/user-attachments/assets/5d449f8a-6066-466c-84a4-7b291e521ed2" />
+<img width="614" height="204" alt="image" src="https://github.com/user-attachments/assets/a14a973d-d437-4b3c-9602-786e9419ef2d" />
 
 
 **Question 2**
 ```
-Insert all books from Out_of_print_books into Books
-
-Table attributes are ISBN, Title, Author, Publisher, YearPublished
-
-For example:
-
-Test	Result
-select * from Books;
-ISBN            Title           Author              Publisher      YearPublished
---------------  --------------  ------------------  -------------  -------------
-978-1234567890  The Lost World  Arthur Conan Doyle  Vintage Books  1912
-978-0987654321  Gone with the   Margaret Mitchell   Macmillan      1936
-978-1122334455  Moby Dick       Herman Melville     Harper & Brot  1851
+Write a SQL query to delete a doctor from Doctors table whos specialization is 'Cardiology'
+Sample table: Doctors
+attributes: doctor_id, first_name, last_name, specialization
 ```
 ```
-INSERT INTO Books
-SELECT * FROM Out_of_print_books;
+delete from doctors
+where specialization='Cardiology';
 ```
+
 **Output:**
-<img width="1327" height="214" alt="image" src="https://github.com/user-attachments/assets/ab4cea4b-900a-4262-b75c-d647ab7da212" />
+
+<img width="612" height="365" alt="image" src="https://github.com/user-attachments/assets/48749b1c-7c87-47ad-8370-53cefe8caea5" />
+
 
 **Question 3**
 ```
-Write a SQL query to Add a new column named "discount" with the data type DECIMAL(5,2) to the "customer" table.
-
-Sample table: customer
-
- customer_id |   cust_name    |    city    | grade | salesman_id 
--------------+----------------+------------+-------+-------------
-        3002 | Nick Rimando   | New York   |   100 |        5001
-        3007 | Brad Davis     | New York   |   200 |        5001
-        3005 | Graham Zusi    | California |   200 |        5002
- 
-
+Write a SQL query to reduce the reorder level by 30% where cost price is more than 50 and quantity in stock is less than 100 in
+the products table.
+Products Table 
+name          type       ----------    ---------- 
+product_id     INT PRIMARY KEY        
+product_name   VARCHAR(10) 
+category       VARCHAR(50) 
+cost_price     DECIMAL(10) 
+sell_price     DECIMAL(10) 
+reorder_lvl    INT        
+quantity       INT        
+supplier_id    INT               
 For example:
+Test Result--pragma table_info('products');
+select changes();
+changes()---------
+2
+```
+```
+update products set reorder_lvl=reorder_lvl*0.7
+where cost_price>50 and quantity<100;
+```
 
-Test	Result
-pragma table_info('customer');
-cid         name         type                               notnull     dflt_value  pk
-----------  -----------  ---------------------------------  ----------  ----------  ----------
-0           customer_id  integer primarykey auto increment  0                       0
-1           cust_name    varchar2(30)                       0                       0
-2           city         varchar(30)                        0                       0
-3           grade        number                             0                       0
-4           salesman_id  number                             0                       0
-5           discount     DECIMAL(5,2)                       0                       0
-```
-```
-ALTER TABLE customer
-ADD discount DECIMAL(5,2);
-```
 **Output:**
-<img width="1323" height="273" alt="image" src="https://github.com/user-attachments/assets/3eef9865-26d3-45a8-8caf-83dc078e3244" />
+
+<img width="617" height="103" alt="image" src="https://github.com/user-attachments/assets/bdbe4d02-b683-4735-98ea-d9dd96069aaf" />
 
 
 **Question 4**
 ```
-Create a table named Employees with the following columns:
-
-EmployeeID as INTEGER
-FirstName as TEXT
-LastName as TEXT
-HireDate as DATE
+Write a query to fetch 5 to 9 records from EmployeeInfo table.
+EmpID EmpFname EmpLname Department Project Address DOB Gender
+1 Sanjay Mehra HR P1 Hyderabad(HYD)01/12/1976M
+2 Ananya Mishra Admin P2 Delhi(DEL) 02/05/1968 F
+ 
+ 
 For example:
-
-Test	Result
-pragma table_info('Employees');
-cid   name        type        notnull     dflt_value  pk
-----  ----------  ----------  ----------  ----------  ----------
-0     EmployeeID  INTEGER     0                       0
-1     FirstName   TEXT        0                       0
-2     LastName    TEXT        0                       0
-3     HireDate    DATE        0                       0
+Result
+EmpID       EmpFname    EmpLname    Department  Project     Address     DOB         Gender----------  ----------  ----------  ----------  ----------  ----------  ----------  ----------
+5           Ankit       Kapoor      Admin       P2          Delhi(DEL)  1994-07-03    M
 ```
 ```
-CREATE TABLE employees(
-    EmployeeID INTEGER,
-    FirstName TEXT,
-    LastName TEXT,
-    HireDate DATE
-);
+select *from EmployeeInfo
+where EmpID between 5 and 9;
 ```
-
 **Output:**
-<img width="1322" height="221" alt="image" src="https://github.com/user-attachments/assets/6125d3e6-1a94-4ca2-9165-d27b16ac73d8" />
+
+<img width="610" height="202" alt="image" src="https://github.com/user-attachments/assets/c61dfc01-d840-4de4-a065-f49b840a83a2" />
 
 
 **Question 5**
 ```
-Create a table named Invoices with the following constraints:
-InvoiceID as INTEGER should be the primary key.
-InvoiceDate as DATE.
-Amount as REAL should be greater than 0.
-DueDate as DATE should be greater than the InvoiceDate.
-OrderID as INTEGER should be a foreign key referencing Orders(OrderID).
+Write a SQL query to determine the status of decimal in the Calculations table as 'Below Average', 'Average', or 'Above Average'
+based on whether it is below 50, exactly 50, or above 50.
+cid         name        type        notnull     dflt_value  pk----------  ----------  ----------  ----------  ----------  ----------
+0           id          INTEGER     0                       1
+1           value1      REAL        0                       0
+2           value2      REAL        0                       0
+3           base        INTEGER     0                       0
+4           exponent    INTEGER     0                       0
+5           number      REAL        0                       0
+6           decimal     REAL        0                       0
+ 
 For example:
-
-Test	Result
-INSERT INTO Orders (OrderID, OrderDate, CustomerID) VALUES (1, '2024-08-01', 1);
-INSERT INTO Invoices (InvoiceID, InvoiceDate, Amount, DueDate, OrderID) VALUES (1, '2024-08-01', 100.0, '2024-09-01', 1);
-SELECT * FROM Invoices;
-InvoiceID   InvoiceDate  Amount      DueDate     OrderID
-----------  -----------  ----------  ----------  ----------
-1           2024-08-01   100.0       2024-09-01  1
+Result
+id          decimal     status----------  ----------  ------------
+1           123.4567    Above Average
+2           567.891     Above Average
+3           78.234      Above Average
+4           45.78       Below Average
 ```
 ```
-CREATE TABLE Invoices(
-     InvoiceID INTEGER PRIMARY KEY,
-     InvoiceDate DATE,
-     Amount Real check(Amount > 0),
-     DueDate DATE check(DueDate > InvoiceDate),
-     OrderID INTEGER,
-     foreign key(OrderId) references Orders(OrderID)
-);
+select 
+    id,decimal,
+    CASE
+       when decimal<50 then  'Below Average'
+       when decimal=50 then 'Average'
+       else 'Above Average'
+    end as status
+from Calculations;
 ```
-
 **Output:**
-<img width="1323" height="228" alt="image" src="https://github.com/user-attachments/assets/e76a76bd-6e59-439b-92b8-af9f6beddc9d" />
+
+<img width="614" height="311" alt="image" src="https://github.com/user-attachments/assets/a9bf60a5-8dd2-41b2-9fbb-94b45274718a" />
 
 
 **Question 6**
 ```
-Create a table named Locations with the following columns:
-
-LocationID as INTEGER
-LocationName as TEXT
-Address as TEXT
+Write a SQL query to Delete customers from 'customer' table where 'GRADE' is greater than or equal to 2.
+ 
+Sample table: Customer
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
+|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | 
+PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
++-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
+| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     
+7000.00 |       4000.00 | BBBBBBB      | A003       |
+| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     
+2000.00 |       6000.00 | CCCCCCC      | A008       |
+| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     
+6000.00 |       6000.00 | BBBBSBB      | A008       |
 For example:
-
-Test	Result
-pragma table_info('Locations');
-cid       name             type        notnull     dflt_value  pk
---------  ---------------  ----------  ----------  ----------  ----------
-0         LocationID       INTEGER     0                       0
-1         LocationName     TEXT        0                       0
-2         Address          TEXT        0                       0
+Test Result
+select distinct(grade)from customer; GRADE----------
+2
+3
+1
+0
+GRADE----------
+1
+0
 ```
 ```
-create table Locations(
-    LocationID INTEGER,
-    LocationName TEXT,
-    Address TEXT
-);
+delete from customer
+where GRADE>=2;
 ```
 **Output:**
-<img width="1326" height="284" alt="image" src="https://github.com/user-attachments/assets/b90d25f0-083f-47a0-a336-3cd040700487" />
+
+<img width="610" height="315" alt="image" src="https://github.com/user-attachments/assets/a3db8ec9-6c09-42fe-92fb-b60b04df17db" />
 
 
 **Question 7**
 ```
-Insert the below data into the Student_details table, allowing the Subject and MARKS columns to take their default values.
-
-RollNo      Name          Gender      
-----------  ------------  ----------  
-204         Samuel Black  M          
-
-Note: The Subject and MARKS columns will use their default values.
- 
-For example:
-
-Test	Result
-SELECT RollNo, Name, Gender 
-FROM Student_details 
-WHERE RollNo = 204;
-
-
-RollNo      Name          Gender
-----------  ------------  ----------
-204         Samuel Black  M
+Write a SQL statement to Find all those customers with all information whose names are ending with the letter 'n'.
+customer table
+cid           name             type      notnu  dflt_value    pk------------  ---------------  --------  -----  ------------  ----------
+0             customer_id      int       0                    0
+1             cust_name        text      0                    0
+2             city             text      0                    0
+3             grade            int       0                    0
+4             salesman_id      int       0                    0
 ```
 ```
-INSERT INTO Student_details(RollNo,Name,Gender)
-Values(204,'Samuel Black','M');
+select *from customer
+where cust_name LIKE '%n';
 ```
+
 **Output:**
-<img width="1329" height="231" alt="image" src="https://github.com/user-attachments/assets/348e06c5-fae7-4cd0-8b9a-95107bc8aeba" />
+
+<img width="611" height="371" alt="image" src="https://github.com/user-attachments/assets/a44066dd-7a09-420c-87e9-d904ff4ac523" />
 
 
 **Question 8**
 ```
-Write a SQL query to add a new column MobileNumber of type NUMBER and a new column Address of type VARCHAR(100) to the Student_details table.
-
+Increase the reorder level by 30% for products from 'Food' category having quantity in stock less than 50% of existing reorder level in the products table
+name               type
+--------------  ----------
+product_id         INT
+product_name       VARCHAR(10)
+category           VARCHAR(50)
+cost_price         DECIMAL(10)
+sell_price         DECIMAL(10)
+reorder_lvl        INT
+quantity              INT
+supplier_id           INT
 For example:
 
 Test	Result
-pragma table_info('Student_details');
-cid    name             type             notnu  dflt_value  pk
------  ---------------  ---------------  -----  ----------  ----------
-0      RollNo           int              0                  1
-1      Name             VARCHAR(100)     1                  0
-2      Gender           TEXT             1                  0
-3      Subject          VARCHAR(30)      0                  0
-4      MARKS            INT (3)          0                  0
-5      MobileNumber     NUMBER           0                  0
-6      Address          VARCHAR(100)     0                  0
+select changes();
+changes()
+----------
+4
+
 ```
 ```
-ALTER TABLE Student_details
-ADD MobileNumber NUMBER;
-ALTER TABLE Student_details
-ADD Address VARCHAR(100);
+update products
+set reorder_lvl=reorder_lvl*1.30
+where category='Food' and quantity<reorder_lvl*0.5;
 ```
 
 **Output:**
 
-<img width="1327" height="273" alt="image" src="https://github.com/user-attachments/assets/fd0e8f40-c7ef-40cc-8a58-e9a364ac99ff" />
+<img width="1323" height="303" alt="image" src="https://github.com/user-attachments/assets/ef387cb9-8621-4c66-a491-72e373d6acc2" />
 
 
 **Question 9**
 ```
-Insert a product with ProductID 104, Name Tablet, and Category Electronics into the Products table, where Price and Stock should use default values.
+Write a SQL query to delete a doctor from Doctors table whose Specialization is 'Pediatrics' and First name is 'Michael'.
 
-For example:
+Sample table: Doctors
 
-Test	Result
-SELECT ProductID, Name, Category, Price, Stock 
-FROM Products 
-WHERE ProductID = 104;
-ProductID   Name        Category     Price       Stock
-----------  ----------  -----------  ----------  ----------
-104         Tablet      Electronics  100         50
+attributes: doctor_id, first_name, last_name, specialization
 ```
 ```
-INSERT INTO Products(ProductID,Name,Category,Price,Stock)
-Values('104','Tablet','Electronics','100','50');
+delete from doctors
+where specialization =  'Pediatrics' and first_name='Michael';
 ```
+
 **Output:**
-<img width="1323" height="171" alt="image" src="https://github.com/user-attachments/assets/835dfc4f-45c7-4514-8a48-941b0cef6da2" />
+
+<img width="1321" height="265" alt="image" src="https://github.com/user-attachments/assets/e17fbe7b-3157-41be-a0c5-5f0fe81e2580" />
 
 
 **Question 10**
 ```
-Create a table named Events with the following columns:
+Write a SQL query to identify products where the discount amount is greater than $50. Return product_id, original_price, discount_percentage, and discount_amount.
 
-EventID as INTEGER
-EventName as TEXT
-EventDate as DATE
+Sample table: products
+
+product_id | original_price | discount_percentage 
+
+------------+----------------+--------------------- 
+
+101 | 100.00 | 0.60 
+
+102 | 150.00 | 0.40 
+
+103 | 200.00 | 0.10
+
+ 
+
 For example:
 
-Test	Result
-pragma table_info('Events');
-cid         name        type        notnull     dflt_value  pk
-----------  ----------  ----------  ----------  ----------  ----------
-0           EventID     INTEGER     0                       0
-1           EventName   TEXT        0                       0
-2           EventDate   DATE        0                       0
+Result
+product_id  original_price  discount_percentage  discount_amount
+----------  --------------  -------------------  ---------------
+101         100             0.6                  60.0
+102         150             0.4                  60.0
 ```
 ```
-CREATE TABLE Events(
-    EventID  INTEGER,
-    EventName  TEXT,
-    EventDate  DATE
-);
+select product_id, original_price, discount_percentage,
+original_price * discount_percentage As discount_amount
+from products
+where original_price * discount_percentage >50.0;
 ```
-
 **Output:**
 
-<img width="1329" height="269" alt="image" src="https://github.com/user-attachments/assets/4cc63dc7-239f-41d2-9294-d1148eae8a1f" />
-
-
+<img width="1322" height="197" alt="image" src="https://github.com/user-attachments/assets/0e97ed43-970f-47ab-90e5-2296bf564c66" />
 
 ## RESULT
-Thus, the SQL queries to implement different types of constraints and DDL commands have been executed successfully.
+Thus, the SQL queries to implement DML commands have been executed successfully.
