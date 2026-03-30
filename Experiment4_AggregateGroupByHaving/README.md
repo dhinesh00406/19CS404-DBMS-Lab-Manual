@@ -37,124 +37,281 @@ HAVING condition;
 ```
 
 **Question 1**
---
--- Paste Question 1 here
+```
+Write a SQL query to find the minimum purchase amount.
 
-```sql
--- Paste your SQL code below for Question 1
+Sample table: orders
+
+ord_no      purch_amt   ord_date    customer_id  salesman_id
+
+----------  ----------  ----------  -----------  -----------
+
+70001       150.5       2012-10-05  3005         5002
+
+70009       270.65      2012-09-10  3001         5005
+
+70002       65.26       2012-10-05  3002         5001
+
+ 
+
+For example:
+
+Result
+MINIMUM
+----------
+65.26
+```
+```
+select MIN(purch_amt) as MINIMUM
+from orders;
 ```
 
 **Output:**
 
-![Output1](output.png)
+<img width="1328" height="237" alt="image" src="https://github.com/user-attachments/assets/7e4687c0-cf33-4735-8018-e1a353c6306f" />
+
 
 **Question 2**
----
--- Paste Question 2 here
+```
+Write a SQL query to calculate the total number of working hours of all employees
 
-```sql
--- Paste your SQL code below for Question 2
+Sample table: employee1
+For example:
+
+Result
+Total working hours
+-------------------
+111
+```
+```
+select SUM(workhour) as "Total working hours"
+from employee1;
 ```
 
 **Output:**
 
-![Output2](output.png)
+<img width="1319" height="237" alt="image" src="https://github.com/user-attachments/assets/07c48da1-2d86-4f6b-8b2d-537e1c4e852f" />
+
 
 **Question 3**
----
--- Paste Question 3 here
+```
+Write a SQL query to find the difference between the maximum and minimum price of fruits?
 
-```sql
--- Paste your SQL code below for Question 3
+Table: fruits
+
+name        type
+----------  ----------
+id          INTEGER
+name        TEXT
+unit        TEXT
+inventory   INTEGER
+price       REAL
+ 
+
+For example:
+
+Result
+price_diff
+----------
+4.65
+```
+```
+select MAX(price)-MIN(price) as price_diff
+from fruits;
 ```
 
 **Output:**
 
-![Output3](output.png)
+<img width="1328" height="258" alt="image" src="https://github.com/user-attachments/assets/c2ccc76a-78e2-47af-aaa2-2df72f9f7f78" />
+
 
 **Question 4**
----
--- Paste Question 4 here
+```
+What is the average dosage prescribed for each medication?
 
-```sql
--- Paste your SQL code below for Question 4
+Sample tablePrescriptions Table
+For example:
+
+Result
+Medication     AvgDosage
+-------------  ----------
+Ciprofloxacin  500.0
+Doxorubicin    60.0
+Ibuprofen      400.0
+Levothyroxine  50.0
+Lisinopril     10.0
+MMR            0.5
+Pending        0.0
+Prenatal vita  1.0
+Sertraline     50.0
+Topiramate     25.0
+```
+```
+select Medication,AVG(Dosage) as "AvgDosage"
+from Prescriptions
+group by Medication;
 ```
 
 **Output:**
-
-![Output4](output.png)
+<img width="1330" height="536" alt="image" src="https://github.com/user-attachments/assets/5fb253e1-dc11-436c-a9d7-99c6a7c9207f" />
 
 **Question 5**
----
--- Paste Question 5 here
+```
+How many male and female doctors are there in each medical specialty?
 
-```sql
--- Paste your SQL code below for Question 5
+Sample table:Doctors Table
+
+For example:
+
+Result
+Specialty          Gender    TotalDoctors
+-----------------  --------  --------------
+Cardiology         Male      1
+Dermatology        Male      1
+Gastroenterology   Female    4
+Gastroenterology   Male      1
+Pediatrics         Female    1
+Pediatrics         Male      2
+```
+```
+select Specialty,Gender,COUNT(DoctorID) as TotalDoctors
+from Doctors
+group by Specialty,Gender;
 ```
 
 **Output:**
+<img width="1319" height="482" alt="image" src="https://github.com/user-attachments/assets/3439edbf-1cc1-42ed-b7e6-01b1bf1df500" />
 
-![Output5](output.png)
 
 **Question 6**
----
--- Paste Question 6 here
-
-```sql
--- Paste your SQL code below for Question 6
 ```
+How many patients are there in each city?
+
+Sample table: Patients Table
+
+For example:
+
+Result
+Address     TotalPatients
+----------  -------------
+Berlin      3
+Chicago     4
+Mexico      3
+```
+```
+select Address,COUNT(PatientID) as TotalPatients
+from Patients
+group by Address;
+```
+
 
 **Output:**
 
-![Output6](output.png)
+<img width="1324" height="321" alt="image" src="https://github.com/user-attachments/assets/dc894cb9-a8b8-4f9c-8f24-6b7ce5c567cb" />
 
 **Question 7**
----
--- Paste Question 7 here
-
-```sql
--- Paste your SQL code below for Question 7
 ```
+Write the SQL query that accomplishes the grouping of data by joining date (jdate), calculates the total work hours for each date, and excludes dates where the total work hour sum is not greater than 40.
 
+Sample table: employee1
+
+For example:
+
+Result
+jdate       SUM(workhour)
+----------  -------------
+2004.0      46
+2006.0      46
+```
+```
+select jdate,SUM(workhour) as "SUM(workhour)"
+from employee1
+group by jdate
+having SUM(workhour)>40;
+```
 **Output:**
 
-![Output7](output.png)
+<img width="1327" height="303" alt="image" src="https://github.com/user-attachments/assets/1f446979-b1c6-410d-8e80-d920adcf0aba" />
+
 
 **Question 8**
----
--- Paste Question 8 here
+```
+Write the SQL query that accomplishes the grouping of data by age intervals using the expression (age/5)5, calculates the minimum age for each group, and excludes groups where the minimum age is not less than 25.
 
-```sql
--- Paste your SQL code below for Question 8
+Sample table: customer1
+
+For example:
+
+Result
+age_group   MIN(age)
+----------  ----------
+20          22
+
+```
+```
+select (age/5)*5 as "age_group", MIN(age) as "MIN(age)"
+from customer1
+group by (age/5)*5
+having MIN(age)<25;
 ```
 
 **Output:**
+<img width="1326" height="265" alt="image" src="https://github.com/user-attachments/assets/52ee5dc6-9557-4ea6-ae02-b0edc3a23cc1" />
 
-![Output8](output.png)
 
 **Question 9**
----
--- Paste Question 9 here
-
-```sql
--- Paste your SQL code below for Question 9
 ```
+Write the SQL query that accomplishes the selection of total number of products for each category from the "products" table, and includes only those products where the minimum category ID is less than 3.
 
+Sample table: products
+
+For example:
+
+Result
+category_id  count(product_name)
+-----------  -------------------
+1            4
+2            3
+```
+```
+select category_id, count(product_name) as "count(product_name)"
+from products
+group by category_id
+having category_id<3;
+```
 **Output:**
 
-![Output9](output.png)
+<img width="1327" height="292" alt="image" src="https://github.com/user-attachments/assets/62e14c3e-6eec-4099-8071-bcc0e71e250c" />
+
 
 **Question 10**
----
--- Paste Question 10 here
-
-```sql
--- Paste your SQL code below for Question 10
 ```
+Write the SQL query that achieves the grouping of data by occupation, calculates the total work hours for each occupation, and excludes occupations where the total work hour sum is not greater than 20.
 
+Sample table: employee1
+
+
+
+For example:
+
+Result
+occupation  SUM(workhour)
+----------  -------------
+Business    30
+Doctor      30
+Engineer    24
+Teacher     27
+```
+```
+select occupation,SUM(workhour) as 'SUM(workhour)'
+from employee1
+group by occupation
+having SUM(workhour)>20;
+```
 **Output:**
 
-![Output10](output.png)
+<img width="1323" height="346" alt="image" src="https://github.com/user-attachments/assets/cf678376-6b59-4859-ace1-4fd049451c61" />
+
 
 
 ## RESULT
